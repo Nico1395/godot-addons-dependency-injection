@@ -9,7 +9,7 @@ There are two other projects that attempt to support DI in Godot C#, [Chickensof
 ## Disclaimer
 While I have experience with C# .NET/ASP.NET, I am new to Godot. As a result there might be performance implications that I am simply not aware of. I plan on adding performance logging soon. Feel free to let me know if there is anything I can improve, or simply contribute.
 
-My goal was to write something that works as well and simple as possible with as little efford as possible required to setup.
+My goal was to write something that works as well as possible while being as simple as possible in terms of setup. I also like dependency injection in Razor components (at least when having a partial code-behind class in a separate file), so this approach is very similar in its using.
 
 ## Features
 - Very simple and minimal to setup
