@@ -18,7 +18,7 @@ namespace Godot.CSharp.DependencyInjection;
 /// <see cref="DependencyInjectionOptions"/> can be configured overriding <see cref="ConfigureOptions(DependencyInjectionOptions)"/>.
 /// </para>
 /// </remarks>
-public abstract partial class StartupBase : Node
+public abstract partial class StartupNodeBase : Node
 {
     /// <inheritdoc/>
     public sealed override void _EnterTree()
