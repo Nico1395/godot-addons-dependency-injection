@@ -1,4 +1,5 @@
 ﻿using Godot.CSharp.DependencyInjection;
+using Godot.CSharp.DependencyInjection.Logging;
 using Godot.CSharp.DependencyInjection.Options;
 using Godot.CSharp.DependencyInjection.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,13 +16,14 @@ public abstract partial class DependencyInjectionStartupNodeBase : Node
         var optionsProvider = new DependencyInjectionOptionsProvider(options);
 
         var services = new ServiceCollection();
+
         services.AddSingleton<IDependencyInjectionOptionsProvider>(optionsProvider);
+        services.AddSingleton<IInternalEditorLogger, InternalEditorLogger>();
 
         ConfigureDependencies(services);
         InternalServiceProviderManager.ServiceProvider = services.BuildServiceProvider();
 
-        if (options.LogEventsToEditor)
-            GD.Print($"Registered '{services.Count}' services to the {nameof(IServiceCollection)}.");
+        GD.Print($"Registered '{services.Count}' services to the {nameof(IServiceCollection)}.");
 
         try
         {
