@@ -14,8 +14,11 @@ internal sealed class InjectionService : IInjectionService
 
     public void InjectDependencies(Node node)
     {
-        var nodeType = node.GetType();
-        var propertiesToInject = nodeType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).Where(p => p.GetCustomAttribute<InjectAttribute>() != null).ToList();
+        var propertiesToInject = node
+            .GetType()
+            .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+            .Where(p => p.GetCustomAttribute<InjectAttribute>() != null)
+            .ToList();
 
         _editorLogger.Log($"Trying to resolve {propertiesToInject.Count} dependencies for node {node.Name}...");
 
