@@ -20,21 +20,21 @@ My goal was to write something that works as well as possible while being as sim
 - Keyed dependency injection support
 
 ## Limitations
-In Razor components injected properties are still null and not initialized in a components constructor. A similar limitation exists with Godot C# and this DI implementation. Injected propertiesa are not initialized before a nodes `_EnterTree()`-method is being invoked. However they are inialized before `_Ready()`, so that will probably be fine for the vast majority of use cases.
+In Razor components, injected properties are obviously still null and not initialized in a components constructor. A similar, yet differnt limitation exists with Godot C# and this DI implementation. Injected propertiesa are not initialized before a nodes `_EnterTree()`-method is being invoked. However they are inialized before `_Ready()`, so that will probably be fine for the vast majority of use cases.
 
 ## On the agenda
-- Currently the `IServiceProvider` used in the background is never used to create a service scope. As a result I dont think scoped services will behave as usually expected as in other applications. I am also not sure what would qualify as a scope in Godot, so feel free to enlighten me if you do.
+- Currently the `IServiceProvider` used in the background is never used to create a service scope. As a result I dont think scoped services will behave as you would expect in other applications. I am also not sure what would qualify as a scope in Godot, so feel free to enlighten me if you do.
 - Unit tests
 - Performance logging
 
 ## Instructions
 ### Setup
-1. Add the `Godot.CSharp.DependencyInjection` NuGet package to your Godot apps C# project and solution
-2. Create a script (without a scene) with a class that implements the abstract class `StartupNodeBase`.
+1. Add the `Godot.CSharp.DependencyInjection` NuGet package to your Godot apps C# project and solution.
+2. Create a script (no scene required) with a class that implements the abstract class `StartupNodeBase`.
 3. Add the script to the autoload configuration of your Godot app in the Godot editor (top left in the editor: `Project/Project Settings/Globals/Autoload`).
 
 ### Use
-To register services override the method `StartupNodeBase.ConfigureServices(IServiceCollection)` and register your services like you would in standard C# .NET applications.
+To register services, override the method `StartupNodeBase.ConfigureServices(IServiceCollection)` and register your services like you would in standard C# .NET applications.
 
 There are configurable options for dependency injection available. As of right now there is just a small setting about logging and the `ServiceProviderOptions`, but this can easily be extended in the future if required.
 
