@@ -2,7 +2,7 @@
 This package adds simple, Razor-like dependency injection support to Godot C#.
 
 ## Why does this package exist?
-There is no native DI support in Godot C#, even though it would be very much nice to have for when you need it. I started as a web-dev with ASP.NET web APIs and Blazor projects and DI is bread and butter in those branches. When trying out Godot C# I was a little bit sad not to have some kind of 'dependency injection layer'.
+There is no native DI support in Godot C#, even though it would be very nice to have it for when you need it. I started as a web-dev with ASP.NET web APIs and Blazor projects and DI is bread and butter in those branches. When trying out Godot C# I was a little bit sad not to have some kind of 'dependency injection layer'.
 
 There are two other projects that attempt to support DI in Godot C#, [Chickensoft.AutoInject](https://github.com/chickensoft-games/AutoInject) and [Godot.DependencyInjection](https://github.com/Filip-Drabinski/Godot.DependencyInjection) (unofficial repository, just like mine). However the first one is simply not my taste and the second has not been maintained for a while and I didnt get it to run. As a result I tried implementing basic dependency injection on my own...
 
