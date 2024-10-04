@@ -20,11 +20,8 @@ public abstract partial class DependencyInjectionStartupNodeBase : Node
         ConfigureDependencies(services);
         InternalServiceProviderManager.ServiceProvider = services.BuildServiceProvider();
 
-        if (options.LogToEditor)
+        if (options.LogEventsToEditor)
             GD.Print($"Registered '{services.Count}' services to the {nameof(IServiceCollection)}.");
-
-
-        //Thread.Sleep(10000);
 
         try
         {
