@@ -7,6 +7,21 @@
         <GodotProjectDir>$(MSBuildProjectDirectory)</GodotProjectDir>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <!--<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Godot.CSharp.DependencyInjection.xml</DocumentationFile>-->
+    </PropertyGroup>
+
+    <!-- Treat missing documentation as errors on release -->
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+        <WarningsAsErrors>CS1591</WarningsAsErrors>
+    </PropertyGroup>
+
+    <!-- Allow missing documentation in debug -->
+    <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+        <WarningsAsErrors></WarningsAsErrors>
+    </PropertyGroup>
+    
     <ItemGroup>
         <PackageReference Include="Godot.SourceGenerators" Version="4.3.0" />
         <PackageReference Include="GodotSharp" Version="4.3.0" />

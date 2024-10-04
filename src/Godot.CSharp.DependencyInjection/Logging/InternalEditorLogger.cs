@@ -34,7 +34,7 @@ internal sealed class InternalEditorLogger : IInternalEditorLogger
         {
             EditorLoggingMode.Debug => IsDebug(),
             EditorLoggingMode.Always => true,
-            EditorLoggingMode.None or _ => false,
+            EditorLoggingMode.Never or _ => false,
         };
     }
 
