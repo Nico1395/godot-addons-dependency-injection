@@ -55,7 +55,10 @@ public abstract partial class StartupNodeBase : Node
     {
         var services = new ServiceCollection().AddGodotDependencyInjection(ConfigureOptions);
         ConfigureDependencies(services);
-        InternalServiceProvider.SetServiceProvider(services.BuildServiceProvider());
+
+        // TODO -> Temporary crutch, clean this up!
+        var serviceProviderOptions = services.BuildServiceProvider().GetRequiredService<IDependencyInjectionOptionsProvider>().GetOptions().ServiceProviderOptions;
+        InternalServiceProvider.SetServiceProvider(services.BuildServiceProvider(serviceProviderOptions));
 
         var editorLogger = InternalServiceProvider.GetRequiredService<IInternalEditorLogger>();
         editorLogger.Log($"Registered '{services.Count}' services to the {nameof(IServiceCollection)}.");
