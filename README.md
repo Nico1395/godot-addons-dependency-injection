@@ -19,6 +19,9 @@ My goal was to write something that works as well and simple as possible with as
 - Uses standard .NET interfaces and implementations under the hood
 - Keyed dependency injection support
 
+## Limitations
+In Razor components injected properties are still null and not initialized in a components constructor. A similar limitation exists with Godot C# and this DI implementation. Injected propertiesa are not initialized before a nodes `_EnterTree()`-method is being invoked. However they are inialized before `_Ready()`, so that will probably be fine for the vast majority of use cases.
+
 ## On the agenda
 - Currently the `IServiceProvider` used in the background is never used to create a service scope. As a result I dont think scoped services will behave as usually expected as in other applications. I am also not sure what would qualify as a scope in Godot, so feel free to enlighten me if you do.
 - Unit tests
