@@ -3,12 +3,11 @@ using Godot.CSharp.DependencyInjection.Logging;
 using Godot.CSharp.DependencyInjection.Options;
 using Godot.CSharp.DependencyInjection.Services;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
 namespace Godot.Infrastructure.DependencyInjection;
 
 /// <summary>
-/// Base class for the dependency injection startup node. Allows registering services with in internal <see cref="IServiceCollection"/> by implementing the method <see cref="ConfigureDependencies(IServiceCollection)"/>.
+/// Base class for the dependency injection startup node. Allows registering services with in internal <see cref="IServiceCollection"/> by overriding the method <see cref="ConfigureDependencies(IServiceCollection)"/>.
 /// </summary>
 /// <remarks>
 /// <para>
@@ -23,32 +22,11 @@ namespace Godot.Infrastructure.DependencyInjection;
 public abstract partial class DependencyInjectionStartupNodeBase : Node
 {
     /// <inheritdoc/>
-    public override void _EnterTree()
+    public sealed override void _EnterTree()
     {
-        var options = new DependencyInjectionOptions();
-        ConfigureOptions(options);
-        var optionsProvider = new DependencyInjectionOptionsProvider(options);
-
-        var services = new ServiceCollection();
-
-        services.AddSingleton<IDependencyInjectionOptionsProvider>(optionsProvider);
-        services.AddSingleton<IInternalEditorLogger, InternalEditorLogger>();
-
-        ConfigureDependencies(services);
-        InternalServiceProviderManager.ServiceProvider = services.BuildServiceProvider();
-
-        GD.Print($"Registered '{services.Count}' services to the {nameof(IServiceCollection)}.");
-
-        try
-        {
-            Engine.GetMainLoop().Connect(
-                new StringName("node_added"),
-                Callable.From<Node>(OnNodeAdded));
-        }
-        catch (Exception ex)
-        {
-            GD.Print(ex.ToString());
-        }
+        OrchestrateStartup();
+        AttachToNodesBeingAddedToTheSceneTree();
+        OnAfterEnterTree();
     }
 
     /// <summary>
@@ -60,37 +38,44 @@ public abstract partial class DependencyInjectionStartupNodeBase : Node
     }
 
     /// <summary>
+    /// Method is being invoked at the end of the node entering the scene tree, so pretty much after the startup has been orchestrated.
+    /// </summary>
+    protected virtual void OnAfterEnterTree()
+    {
+    }
+
+    /// <summary>
     /// Method allows configuring dependencies for the application using the given <see cref="IServiceCollection"/> <paramref name="services"/>.
     /// </summary>
     /// <param name="services"><see cref="IServiceCollection"/> to contain registered <see cref="ServiceDescriptor"/>s.</param>
-    protected abstract void ConfigureDependencies(IServiceCollection services);
-
-    private void OnNodeAdded(Node node)
+    protected virtual void ConfigureDependencies(IServiceCollection services)
     {
-        InjectServices(node);
     }
 
-    private void InjectServices(Node node)
+    private void OrchestrateStartup()
     {
-        var nodeType = node.GetType();
-        var propertiesToInject = nodeType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).Where(p => p.GetCustomAttribute<InjectAttribute>() != null).ToList();
+        var services = new ServiceCollection().AddGodotDependencyInjection(ConfigureOptions);
+        ConfigureDependencies(services);
+        InternalServiceProvider.SetServiceProvider(services.BuildServiceProvider());
 
-        GD.Print($"Trying to resolve {propertiesToInject.Count} dependencies for node {node.Name}...");
+        var editorLogger = InternalServiceProvider.GetRequiredService<IInternalEditorLogger>();
+        editorLogger.Log($"Registered '{services.Count}' services to the {nameof(IServiceCollection)}.");
+    }
 
-        foreach (var property in propertiesToInject)
+    private void AttachToNodesBeingAddedToTheSceneTree()
+    {
+        var editorLogger = InternalServiceProvider.GetRequiredService<IInternalEditorLogger>();
+        var injectionService = InternalServiceProvider.GetRequiredService<IInjectionService>();
+
+        try
         {
-            var injectAttribute = property.GetCustomAttribute<InjectAttribute>();
-            var resolvedDependency = ResolveDependency(property.PropertyType, injectAttribute!.Key);
-
-            property.SetValue(node, resolvedDependency, null);
+            Engine.GetMainLoop().Connect(
+                new StringName("node_added"),
+                Callable.From<Node>(injectionService.InjectDependencies));
         }
-    }
-
-    private object ResolveDependency(Type dependencyType, object? key)
-    {
-        if (key == null)
-            return InternalServiceProviderManager.ServiceProvider.GetRequiredService(dependencyType);
-
-        return InternalServiceProviderManager.ServiceProvider.GetRequiredKeyedService(dependencyType, key);
+        catch (Exception ex)
+        {
+            editorLogger.Log(ex.ToString());
+        }
     }
 }
