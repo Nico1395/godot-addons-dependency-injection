@@ -15,7 +15,7 @@ namespace Godot.CSharp.DependencyInjection;
 /// in other scripts, you will need this to be loaded earlier.
 /// </para>
 /// <para>
-/// <see cref="DependencyInjectionOptions"/> can be configured overriding <see cref="ConfigureOptions(DependencyInjectionOptions)"/>.
+/// <see cref="DependencyInjectionOptions"/> can be configured overriding <see cref="ConfigureOptions(DependencyInjectionOptionsBuilder)"/>.
 /// </para>
 /// </remarks>
 public abstract partial class StartupNodeBase : Node
@@ -29,17 +29,17 @@ public abstract partial class StartupNodeBase : Node
     }
 
     /// <summary>
-    /// Method allows configuring the given <see cref="DependencyInjectionOptions"/>.
+    /// Method is being invoked at the end of the node entering the scene tree, so pretty much after the startup has been orchestrated.
     /// </summary>
-    /// <param name="options">Options to be configured.</param>
-    protected virtual void ConfigureOptions(DependencyInjectionOptions options)
+    protected virtual void OnAfterEnterTree()
     {
     }
 
     /// <summary>
-    /// Method is being invoked at the end of the node entering the scene tree, so pretty much after the startup has been orchestrated.
+    /// Method allows configuring <see cref="DependencyInjectionOptions"/> using the given <paramref name="builder"/>.
     /// </summary>
-    protected virtual void OnAfterEnterTree()
+    /// <param name="builder">Options builder for configuring <see cref="DependencyInjectionOptions"/>.</param>
+    protected virtual void ConfigureOptions(DependencyInjectionOptionsBuilder builder)
     {
     }
 

@@ -7,12 +7,12 @@ namespace Godot.CSharp.DependencyInjection;
 
 internal static class DependencyInjection
 {
-    internal static IServiceCollection AddGodotDependencyInjection(this IServiceCollection services, Action<DependencyInjectionOptions>? optionsAction = null)
+    internal static IServiceCollection AddGodotDependencyInjection(this IServiceCollection services, Action<DependencyInjectionOptionsBuilder>? options = null)
     {
-        var options = new DependencyInjectionOptions();
-        optionsAction?.Invoke(options);
+        var optionsBuilder = new DependencyInjectionOptionsBuilder();
+        options?.Invoke(optionsBuilder);
 
-        services.AddSingleton<IDependencyInjectionOptionsProvider>(new DependencyInjectionOptionsProvider(options));
+        services.AddSingleton<IDependencyInjectionOptionsProvider>(new DependencyInjectionOptionsProvider(optionsBuilder.Build()));
         services.AddSingleton<IInternalEditorLogger, InternalEditorLogger>();
         services.AddSingleton<IInjectionService, InjectionService>();
 
