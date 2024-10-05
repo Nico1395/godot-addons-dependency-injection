@@ -18,9 +18,7 @@ internal sealed class InternalEditorLogger : IInternalEditorLogger
             return;
 
         var formattedMessage = FormatMessage(message);
-
         GD.Print(formattedMessage);
-        Debug.WriteLine(formattedMessage);
     }
 
     public void Log(Exception exception)

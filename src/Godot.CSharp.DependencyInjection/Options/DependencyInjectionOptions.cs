@@ -17,4 +17,9 @@ public sealed class DependencyInjectionOptions
     /// Logging mode for internal dependency injection related logging operations.
     /// </summary>
     public EditorLoggingMode EditorLoggingMode { get; set; } = EditorLoggingMode.Never;
+
+    /// <summary>
+    /// Determines whether to enable performance logging or not.
+    /// </summary>
+    public bool EnablePerformanceLogging { get; set; }
 }
