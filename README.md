@@ -6,10 +6,7 @@ There is no native DI support in Godot C#, even though it would be very nice to 
 
 There are two other projects that attempt to support DI in Godot C#, [Chickensoft.AutoInject](https://github.com/chickensoft-games/AutoInject) and [Godot.DependencyInjection](https://github.com/Filip-Drabinski/Godot.DependencyInjection) (unofficial repository, just like mine). However the first one is simply not my taste and the second has not been maintained for a while and I didnt get it to run. As a result I tried implementing basic dependency injection on my own...
 
-## Disclaimer
-While I have experience with C# .NET/ASP.NET, I am new to Godot. As a result there might be performance implications that I am simply not aware of. I plan on adding performance logging soon. Feel free to let me know if there is anything I can improve, or simply contribute.
-
-My goal was to write something that works as well as possible while being as simple as possible in terms of setup. I also like dependency injection in Razor components (at least when having a partial code-behind class in a separate file), so this approach is very similar in its using.
+While I have experience with C# .NET/ASP.NET, I am new to Godot. So I am open to suggestions for optimizing or expanding the projects featureset.
 
 ## Features
 - Very simple and minimal to setup
@@ -25,7 +22,6 @@ In Razor components, injected properties are obviously still null and not initia
 ## On the agenda
 - Currently the `IServiceProvider` used in the background is never used to create a service scope. As a result I dont think scoped services will behave as you would expect in other applications. I am also not sure what would qualify as a scope in Godot, so feel free to enlighten me if you do.
 - Unit tests
-- Performance logging
 
 ## Instructions
 ### Setup
@@ -34,6 +30,7 @@ In Razor components, injected properties are obviously still null and not initia
 3. Add the script to the autoload configuration of your Godot app in the Godot editor (top left in the editor: `Project/Project Settings/Globals/Autoload`).
 
 ### Use
+#### Configurations
 To register services, override the method `StartupNodeBase.ConfigureServices(IServiceCollection)` and register your services like you would in standard C# .NET applications.
 
 There are configurable options for dependency injection available. As of right now there is just a small setting about logging and the `ServiceProviderOptions`, but this can easily be extended in the future if required.
@@ -47,13 +44,19 @@ internal partial class StartupNode : StartupNodeBase
 		services.AddSingleton<ICheckpointManager, CheckpointManager>();
 	}
 
-	protected override void ConfigureOptions(DependencyInjectionOptions options)
+	protected override void ConfigureOptions(DependencyInjectionOptionsBuilder builder)
 	{
-		options.EditorLoggingMode = EditorLoggingMode.Debug;
+		builder.WithEditorLoggingMode(EditorLoggingMode.Debug);
+	}
+
+	protected override void OnAfterEnterTree()
+	{
+		// For access to the _EnterTree() after the initial startup routine has been completed
 	}
 }
 ```
 
+#### Injection
 To inject services create a property in your node. This property can have any access modifier, but has to have a getter and a setter. Place the `InjectAttribute` over it.
 
 If you want to use keyed injection you can specify a key in the constructor of the attribute.
@@ -66,6 +69,22 @@ public partial class Checkpoint : Area2D
 
 	[Inject("some-key")]
 	private ISomeKeyedService SomeKeyedService { get; set; } = null!;
+}
+```
+
+#### Accessing `DependencyInjectionOptions`
+Accessing the configured `DependencyInjectionOptions` can be achieved using the `IDependencyInjectionOptionsProvider` interface.
+
+```cs
+internal partial class SomeNode : Node
+{
+	[Inject]
+	private IDependencyInjectionOptionsProvider OptionsProvider { get; set; } = null!;
+
+	public override void _Ready()
+	{
+		var options = OptionsProvider.GetOptions();
+	}
 }
 ```
 
