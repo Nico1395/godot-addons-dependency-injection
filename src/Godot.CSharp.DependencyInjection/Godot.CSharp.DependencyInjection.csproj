@@ -17,8 +17,8 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
+        <!--<PackageReadmeFile>README.md</PackageReadmeFile>-->
         <!--<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Godot.CSharp.DependencyInjection.xml</DocumentationFile>-->
     </PropertyGroup>
 
