@@ -22,11 +22,23 @@ internal sealed class InjectionService : IInjectionService
         _performanceLoggingEnabled = _optionsProvider.GetOptions().EnablePerformanceLogging;
     }
 
-    public void InjectDependencies(Node node)
+    public void InjectDependencies(object @object)
     {
         var stopwatch = _performanceLoggingEnabled ? Stopwatch.StartNew() : null;
-        var dependencyPropertiesToInitialize = node
-            .GetType()
+
+        InjectDependenciesInternal(@object);
+
+        if (stopwatch != null)
+        {
+            stopwatch.Stop();
+            _editorLogger.Log($"Resolving dependencies for node {@object.GetType().Name} took {stopwatch.Elapsed.TotalMilliseconds}ms");
+        }
+    }
+
+    private void InjectDependenciesInternal(object @object)
+    {
+        var objectType = @object.GetType();
+        var dependencyPropertiesToInitialize = objectType
             .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
             .Where(p => p.GetCustomAttribute<InjectAttribute>() != null)
             .ToList();
@@ -34,20 +46,14 @@ internal sealed class InjectionService : IInjectionService
         if (dependencyPropertiesToInitialize.Count < 1)
             return;
 
-        _editorLogger.Log($"Trying to resolve dependencies ({dependencyPropertiesToInitialize.Count}) for node '{node.Name}'...");
+        _editorLogger.Log($"Trying to resolve dependencies ({dependencyPropertiesToInitialize.Count}) for object '{objectType.Name}'...");
 
         foreach (var dependencyProperty in dependencyPropertiesToInitialize)
         {
             var injectAttribute = dependencyProperty.GetCustomAttribute<InjectAttribute>();
             var resolvedDependency = ResolveDependency(dependencyProperty.PropertyType, injectAttribute!.Key);
 
-            dependencyProperty.SetValue(node, resolvedDependency, null);
-        }
-
-        if (stopwatch != null)
-        {
-            stopwatch.Stop();
-            _editorLogger.Log($"Resolving dependencies ({dependencyPropertiesToInitialize.Count}) for node '{node.Name}' took {stopwatch.Elapsed.TotalMilliseconds}ms");
+            dependencyProperty.SetValue(@object, resolvedDependency, null);
         }
     }
 

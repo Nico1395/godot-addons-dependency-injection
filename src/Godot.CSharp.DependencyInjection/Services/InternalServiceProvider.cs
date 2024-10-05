@@ -11,10 +11,13 @@ internal static class InternalServiceProvider
 
     internal static void SetServiceProvider(IServiceProvider serviceProvider)
     {
+        if (_serviceProvider != null)
+            throw new InvalidOperationException($"The {nameof(IServiceProvider)} has already been initialized");
+
         _serviceProvider = serviceProvider;
     }
 
-    internal static object? GetService<T>(Type serviceType)
+    internal static object? GetService(Type serviceType)
     {
         return ServiceProvider.GetService(serviceType);
     }
@@ -22,6 +25,11 @@ internal static class InternalServiceProvider
     internal static T? GetService<T>()
     {
         return ServiceProvider.GetService<T>();
+    }
+
+    internal static IEnumerable<T> GetServices<T>()
+    {
+        return ServiceProvider.GetServices<T>();
     }
 
     internal static object GetRequiredService(Type serviceType)
@@ -40,14 +48,19 @@ internal static class InternalServiceProvider
         return ServiceProvider.GetKeyedService<T>(serviceKey);
     }
 
-    public static object GetRequiredKeyedService(Type serviceType, object? serviceKey)
+    internal static object GetRequiredKeyedService(Type serviceType, object? serviceKey)
     {
         return ServiceProvider.GetRequiredKeyedService(serviceType, serviceKey);
     }
 
-    public static T GetRequiredKeyedService<T>(object? serviceKey)
+    internal static T GetRequiredKeyedService<T>(object? serviceKey)
          where T : notnull
     {
         return ServiceProvider.GetRequiredKeyedService<T>(serviceKey);
+    }
+
+    internal static IEnumerable<T> GetKeyedServices<T>(object? serviceKey)
+    {
+        return ServiceProvider.GetRequiredKeyedService<IEnumerable<T>>(serviceKey);
     }
 }

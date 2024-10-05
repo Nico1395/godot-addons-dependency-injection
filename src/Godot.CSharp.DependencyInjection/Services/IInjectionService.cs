@@ -2,5 +2,5 @@
 
 internal interface IInjectionService
 {
-    internal void InjectDependencies(Node node);
+    internal void InjectDependencies(object @object);
 }
