@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
@@ -8,7 +8,17 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <EnablePackageValidation>true</EnablePackageValidation>
+        <PackageId>Godot.CSharp.DepdendencyInjection</PackageId>
+        <Authors>Nicolai Wolf</Authors>
+        <Description>Dependency injection support for Godot C#!.</Description>
+        <RepositoryUrl>https://github.com/Nico1395/godot-csharp-dependency-injection</RepositoryUrl>
+        <PackageTags>Godot;DependencyInjection</PackageTags>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
         <!--<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Godot.CSharp.DependencyInjection.xml</DocumentationFile>-->
     </PropertyGroup>
 
@@ -21,12 +31,11 @@
     <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
         <WarningsAsErrors></WarningsAsErrors>
     </PropertyGroup>
-    
+
     <ItemGroup>
         <PackageReference Include="Godot.SourceGenerators" Version="4.3.0" />
         <PackageReference Include="GodotSharp" Version="4.3.0" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
     </ItemGroup>
 
 </Project>

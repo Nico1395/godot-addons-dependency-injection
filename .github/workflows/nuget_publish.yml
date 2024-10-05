@@ -1,0 +1,38 @@
+name: "NuGet Publish"
+
+on:
+  release:
+    types:
+      - published
+
+env:
+  PROJECT: "src/Godot.CSharp.DependencyInjection/Godot.CSharp.DependencyInjection.csproj"
+  PACK_OUTPUT_DIRECTORY: "${{ github.workspace }}/output"
+  NUGET_SOURCE_URL: "https://api.nuget.org/v3/index.json"
+
+jobs:
+  publish:
+    name: "Build Godot.CSharp.DependencyInjection"
+    runs-on: "ubuntu-latest"
+    steps:
+    - name: "Checkout"
+      uses: "actions/checkout@v4"
+      with:
+        fetch-depth: 0
+
+    - name: "Setup .NET"
+      uses: "actions/setup-dotnet@v4"
+      with:
+        dotnet-version: 6.0.x
+
+    - name: "Restore dependencies"
+      run: "dotnet restore ${{ env.PROJECT }}"
+
+    - name: "Build project"
+      run: "dotnet build ${{ env.PROJECT }} --no-restore --configuration Release"
+      
+    - name: "Pack project"
+      run: "dotnet pack ${{ env.PROJECT }} --no-restore --no-build --configuration Release --include-symbols -p:PackageVersion=${{ github.ref_name }} --output ${{ env.PACK_OUTPUT_DIRECTORY }}"
+
+    - name: "Push package"
+      run: "dotnet nuget push '${{ env.PACK_OUTPUT_DIRECTORY }}/*.nupkg' -k ${{ secrets.NUGET_API_KEY }} -s ${{ env.NUGET_SOURCE_URL }}"
