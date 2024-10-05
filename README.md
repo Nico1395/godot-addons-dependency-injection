@@ -19,9 +19,8 @@ While I have experience with C# .NET/ASP.NET, I am new to Godot. So I am open to
 ## Limitations
 In Razor components, injected properties are obviously still null and not initialized in a components constructor. A similar, yet differnt limitation exists with Godot C# and this DI implementation. Injected propertiesa are not initialized before a nodes `_EnterTree()`-method is being invoked. However they are inialized before `_Ready()`, so that will probably be fine for the vast majority of use cases.
 
-## On the agenda
-- Currently the `IServiceProvider` used in the background is never used to create a service scope. As a result I dont think scoped services will behave as you would expect in other applications. I am also not sure what would qualify as a scope in Godot, so feel free to enlighten me if you do.
-- Unit tests
+## Disclaimer
+Currently the `IServiceProvider` used in the background is never used to create a service scope. As a result I dont think scoped services will behave as you would expect in other applications. I am also not sure what would qualify as a scope in Godot, so feel free to enlighten me if you do.
 
 ## Instructions
 ### Setup
