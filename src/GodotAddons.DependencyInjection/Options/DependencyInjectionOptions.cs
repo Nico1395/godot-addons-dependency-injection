@@ -1,7 +1,7 @@
-﻿using Godot.CSharp.DependencyInjection.Logging;
+﻿using GodotAddons.DependencyInjection.Logging;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Godot.CSharp.DependencyInjection.Options;
+namespace GodotAddons.DependencyInjection.Options;
 
 /// <summary>
 /// Options for configuring dependency injection.

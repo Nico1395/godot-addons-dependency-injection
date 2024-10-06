@@ -1,4 +1,4 @@
-﻿namespace Godot.CSharp.DependencyInjection.Logging;
+﻿namespace GodotAddons.DependencyInjection.Logging;
 
 internal interface IInternalEditorLogger
 {

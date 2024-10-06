@@ -1,9 +1,9 @@
-﻿using Godot.CSharp.DependencyInjection.Logging;
-using Godot.CSharp.DependencyInjection.Options;
-using Godot.CSharp.DependencyInjection.Services;
+﻿using GodotAddons.DependencyInjection.Logging;
+using GodotAddons.DependencyInjection.Options;
+using GodotAddons.DependencyInjection.Services;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Godot.CSharp.DependencyInjection;
+namespace GodotAddons.DependencyInjection;
 
 internal static class DependencyInjection
 {

@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Godot.CSharp.DependencyInjection.Services;
+namespace GodotAddons.DependencyInjection.Services;
 
 internal static class InternalServiceProvider
 {
     private static IServiceProvider? _serviceProvider;
 
     private static IServiceProvider ServiceProvider
-        =>  _serviceProvider ?? throw new NullReferenceException($"The internal {nameof(IServiceProvider)} has not been initialized!");
+        => _serviceProvider ?? throw new NullReferenceException($"The internal {nameof(IServiceProvider)} has not been initialized!");
 
     internal static void SetServiceProvider(IServiceProvider serviceProvider)
     {

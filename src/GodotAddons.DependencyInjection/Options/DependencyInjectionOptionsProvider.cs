@@ -1,4 +1,4 @@
-﻿namespace Godot.CSharp.DependencyInjection.Options;
+﻿namespace GodotAddons.DependencyInjection.Options;
 
 internal sealed class DependencyInjectionOptionsProvider : IDependencyInjectionOptionsProvider
 {

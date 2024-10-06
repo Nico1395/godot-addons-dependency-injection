@@ -1,4 +1,4 @@
-﻿namespace Godot.CSharp.DependencyInjection.Logging;
+﻿namespace GodotAddons.DependencyInjection.Logging;
 
 /// <summary>
 /// Modes that determine whether the internal logger should log or not.

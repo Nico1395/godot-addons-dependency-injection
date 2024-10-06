@@ -1,9 +1,10 @@
-﻿using Godot.CSharp.DependencyInjection.Logging;
-using Godot.CSharp.DependencyInjection.Options;
-using Godot.CSharp.DependencyInjection.Services;
+﻿using Godot;
+using GodotAddons.DependencyInjection.Logging;
+using GodotAddons.DependencyInjection.Options;
+using GodotAddons.DependencyInjection.Services;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Godot.CSharp.DependencyInjection;
+namespace GodotAddons.DependencyInjection;
 
 /// <summary>
 /// Base class for the dependency injection startup node. Allows registering services with in internal <see cref="IServiceCollection"/> by overriding the method <see cref="ConfigureDependencies(IServiceCollection)"/>.

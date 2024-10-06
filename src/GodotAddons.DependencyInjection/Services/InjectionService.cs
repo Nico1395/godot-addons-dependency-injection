@@ -1,9 +1,9 @@
-﻿using Godot.CSharp.DependencyInjection.Logging;
-using Godot.CSharp.DependencyInjection.Options;
+﻿using GodotAddons.DependencyInjection.Logging;
+using GodotAddons.DependencyInjection.Options;
 using System.Diagnostics;
 using System.Reflection;
 
-namespace Godot.CSharp.DependencyInjection.Services;
+namespace GodotAddons.DependencyInjection.Services;
 
 internal sealed class InjectionService : IInjectionService
 {

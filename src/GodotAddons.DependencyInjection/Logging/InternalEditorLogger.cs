@@ -1,7 +1,7 @@
-﻿using Godot.CSharp.DependencyInjection.Options;
-using System.Diagnostics;
+﻿using Godot;
+using GodotAddons.DependencyInjection.Options;
 
-namespace Godot.CSharp.DependencyInjection.Logging;
+namespace GodotAddons.DependencyInjection.Logging;
 
 internal sealed class InternalEditorLogger : IInternalEditorLogger
 {

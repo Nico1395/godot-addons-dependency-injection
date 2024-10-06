@@ -1,4 +1,4 @@
-﻿namespace Godot.CSharp.DependencyInjection.Services;
+﻿namespace GodotAddons.DependencyInjection.Services;
 
 internal interface IInjectionService
 {

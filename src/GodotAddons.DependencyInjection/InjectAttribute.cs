@@ -1,4 +1,6 @@
-﻿namespace Godot.CSharp.DependencyInjection;
+﻿using Godot;
+
+namespace GodotAddons.DependencyInjection;
 
 /// <summary>
 /// Attribute flags a property to be injected when a node enters the tree.
