@@ -6,13 +6,13 @@ on:
       - published
 
 env:
-  PROJECT: "src/Godot.CSharp.DependencyInjection/Godot.CSharp.DependencyInjection.csproj"
+  PROJECT: "src/GodotAddons.DependencyInjection/GodotAddons.DependencyInjection.csproj"
   PACK_OUTPUT_DIRECTORY: "${{ github.workspace }}/output"
   NUGET_SOURCE_URL: "https://api.nuget.org/v3/index.json"
 
 jobs:
   publish:
-    name: "Build Godot.CSharp.DependencyInjection"
+    name: "Publish GodotAddons.DependencyInjection"
     runs-on: "ubuntu-latest"
     steps:
     - name: "Checkout"
