@@ -9,7 +9,7 @@
 
     <PropertyGroup>
         <EnablePackageValidation>true</EnablePackageValidation>
-        <PackageId>Godot.CSharp.DependencyInjection</PackageId>
+        <PackageId>GodotAddons.DependencyInjection</PackageId>
         <Authors>Nicolai Wolf</Authors>
         <Description>Dependency injection support for Godot C#!.</Description>
         <RepositoryUrl>https://github.com/Nico1395/godot-csharp-dependency-injection</RepositoryUrl>
